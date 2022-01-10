@@ -9,10 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //@Slf4j
@@ -21,7 +23,7 @@ public class  BookController {
 
 
 
-    private static Map<Long, Book> bookMap = new HashMap<>();
+    private static Map<Long, @Valid Book> bookMap = new HashMap<>();
 
      {
         Book book = new Book();
@@ -55,12 +57,17 @@ public class  BookController {
     }
 
     @RequestMapping(value = "/books",method = RequestMethod.POST)
-    public ResponseEntity<Object> createBook(@Valid @RequestBody  Book book){
+    public ResponseEntity<Object> createBook(@RequestBody Book book ){
+         if(book.getName() != null && !book.getName().isEmpty()){
+             bookMap.put(book.getId(),book);
 
-        bookMap.put(book.getId(),book);
-
-        return new ResponseEntity<>("Book was added",   HttpStatus.CREATED);
+             return new ResponseEntity<>("Book was added",   HttpStatus.CREATED);
+         }
+      else {
+             return new ResponseEntity<>("Book was not added",   HttpStatus.BAD_REQUEST);
+         }
     }
+
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateBooks(@PathVariable("id") Long id, @RequestBody Book book) {
