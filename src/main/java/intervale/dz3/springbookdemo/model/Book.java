@@ -2,30 +2,28 @@ package intervale.dz3.springbookdemo.model;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.*;
 
 import java.math.BigDecimal;
 
 @Data
-public class Book {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Book {
 
     private Long id;
     @NotNull(message = "Type in isbn")
-    @Size(min = 0,max = 20,message = "20ти значный isbn ")
-    private long Isbn;
+    private String Isbn;
     @NotBlank(message = "Type in name")
     private String name;
     @NotBlank(message = "Type in author")
     private String author;
-    @NotBlank(message = "Type in pages")
+    @NotNull(message = "Type in pages")
     private int pages;
-    @NotBlank(message = "Type in weight")
+    @NotNull(message = "Type in weight")
     private double weight;
-    @NotEmpty(message = "Type in price")
+//    @NotEmpty(message = "Type in price")
     @DecimalMin("0.00")
     private BigDecimal price;
 
