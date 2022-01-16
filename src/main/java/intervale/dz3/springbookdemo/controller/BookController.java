@@ -3,33 +3,32 @@ package intervale.dz3.springbookdemo.controller;
 
 
 import intervale.dz3.springbookdemo.model.Book;
+import intervale.dz3.springbookdemo.model.Dto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
 //@Valid
 @RestController
-public class  BookController {
+
+public class  BookController  {
 
 
 
-    @NotNull
-    private static Map<Long, @Valid Book> bookMap = new HashMap<>();
+    //@NotNull
+    private static Map<String, Book> bookMap = new HashMap<>();
+    private static Map<String,  Dto> DtoMap = new HashMap<>();
+
 
      {
         Book book = new Book();
-        book.setId(1L);
+        book.setId("1");
         book.setIsbn("45654675432434");
         book.setName("History");
         book.setAuthor("Pavel");
@@ -40,7 +39,7 @@ public class  BookController {
         bookMap.put(book.getId(), book);
 
         Book book1 = new Book();
-        book1.setId(2L);
+        book1.setId("2");
         book1.setIsbn("343434343434");
         book1.setName("History");
         book1.setAuthor("Dog");
@@ -54,13 +53,17 @@ public class  BookController {
 
 
     @RequestMapping(value = "/books",method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllBooks() {
+    public ResponseEntity<Object> getAllBooks(Book book) {
+
         return new ResponseEntity<>(bookMap.values(), HttpStatus.OK);
     }
 
+
+
     @RequestMapping(value = "/books",method = RequestMethod.POST)
-    public ResponseEntity<Object> createBook(@Valid @RequestBody Book book ){
-         bookMap.put(book.getId(),book);
+    public ResponseEntity<Object> createBook( @RequestBody Book book){
+        //bookMap.put(book.getId(),book);
+          bookMap.put(book.getId(),book);
          return new ResponseEntity<>("new Book",HttpStatus.CREATED);
 //         if(book.getName() != null && !book.getName().isEmpty() ){
 //             bookMap.put(book.getId(),book);
@@ -71,20 +74,41 @@ public class  BookController {
 //             return new ResponseEntity<>("Book was not added",   HttpStatus.BAD_REQUEST);
 //         }
     }
+    @RequestMapping(value = "/dto",method = RequestMethod.GET)
+    public ResponseEntity<Object> Get(Dto dto){
+        //преобразование из модели в джейсон
+//        BookResp bookResp =  new ObjectMapper().readValue("{\n" +
+//                "\"name\":2,\n" +
+//                "\"author\":3,\n" +
+//                "\"id\":300\n" +
+//                "}",BookResp.class);
+        return new ResponseEntity<>(DtoMap.values(),HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = "/dto",method = RequestMethod.POST)
+    public ResponseEntity<Object> add(@RequestBody Dto dto){
+       DtoMap.put(dto.getId(),dto);
+        return new  ResponseEntity<>("New",HttpStatus.CREATED);
+    }
 
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updateBooks(@PathVariable("id") Long id, @RequestBody Book book) {
+    public ResponseEntity<Object> updateBooks(@PathVariable("id") String id, @RequestBody Book book) {
         bookMap.remove(id);
         book.setId(id);
         bookMap.put(id, book);
         return new ResponseEntity<>("Book was updated successfully", HttpStatus.OK);
     }
     @RequestMapping(value = "/books/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(@PathVariable("id")Long id){
+    public ResponseEntity<Object> delete(@PathVariable("id")String id){
         bookMap.remove(id);
         return new ResponseEntity<>("Books were deleted",HttpStatus.OK);
     }
+
+
+
+
 
     @ExceptionHandler(RuntimeException.class)
     public String handle(RuntimeException e){
@@ -92,9 +116,5 @@ public class  BookController {
         return "Enter parametrs";
     }
 
-//    @RequestMapping(value = "/books1", method = RequestMethod.POST)
-//    public ResponseEntity<Object> createBook1(@RequestBody Book book) {
-//        bookMap.put(book.getId(), book);
-//        return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
-//    }
+
 }

@@ -1,33 +1,56 @@
 package intervale.dz3.springbookdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import intervale.dz3.springbookdemo.util.BookDeserializer;
 import lombok.Data;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.*;
 
 import java.math.BigDecimal;
 
 @Data
+@JsonPropertyOrder({"id","isbn","name","author","pages","weight","price"})
+@JsonDeserialize(using = BookDeserializer.class)
+public class Book  {
+//    BookResp bookResp = new BookResp();
+//
+//    {
+//        bookResp.setId("20");
+//        bookResp.setName("Pavel");
+//        bookResp.setAuthor("I");
+//    }
 
-public class Book {
 
-    private Long id;
-    @NotNull(message = "Type in isbn")
-    private String Isbn;
-    @NotBlank(message = "Type in name")
+
+    private String id;
+    //@NotNull(message = "Type in isbn")
+    private String isbn;
+    //@NotBlank(message = "Type in name")
     private String name;
-    @NotBlank(message = "Type in author")
+    //@NotBlank(message = "Type in author")
     private String author;
-    @NotNull(message = "Type in pages")
+    //@NotNull(message = "Type in pages")
     private int pages;
-    @NotNull(message = "Type in weight")
+   // @NotNull(message = "Type in weight")
     private double weight;
 //    @NotEmpty(message = "Type in price")
-    @DecimalMin("0.00")
+   // @DecimalMin("0.00")
     private BigDecimal price;
 
-//    public int getId() {
+
+
+//    public Book(String author, String id, String isbn,String name) {
+//        this.id = id;
+//        this.isbn = isbn;
+//        this.name = name;
+//        this.author = author;
+//        this.pages = pages;
+//        this.weight = weight;
+//        this.price = price;
+//        this.value = value;
+//    }
+    //    public int getId() {
 //        return id;
 //    }
 //
