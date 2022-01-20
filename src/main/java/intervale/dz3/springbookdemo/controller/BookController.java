@@ -3,107 +3,69 @@ package intervale.dz3.springbookdemo.controller;
 
 
 import intervale.dz3.springbookdemo.model.Book;
-import intervale.dz3.springbookdemo.model.Dto;
+import intervale.dz3.springbookdemo.service.BooksService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.List;
 
 @Slf4j
-//@Valid
 @RestController
-
 public class  BookController  {
 
+    private final BooksService booksService;
 
-
-    //@NotNull
-    private static Map<String, Book> bookMap = new HashMap<>();
-    private static Map<String,  Dto> DtoMap = new HashMap<>();
-
-
-     {
-        Book book = new Book();
-        book.setId("1");
-        book.setIsbn("45654675432434");
-        book.setName("History");
-        book.setAuthor("Pavel");
-        book.setWeight(2.2);
-        book.setPages(100);
-        book.setPrice(BigDecimal.valueOf(123.45));
-
-        bookMap.put(book.getId(), book);
-
-        Book book1 = new Book();
-        book1.setId("2");
-        book1.setIsbn("343434343434");
-        book1.setName("History");
-        book1.setAuthor("Dog");
-        book1.setWeight(2);
-        book1.setPages(80);
-        book1.setPrice(BigDecimal.valueOf(99.99));
-
-        bookMap.put(book1.getId(), book1);
-
+    @Autowired
+    public BookController(BooksService booksService) {
+        this.booksService = booksService;
     }
+
+
+
 
 
     @RequestMapping(value = "/books",method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllBooks(Book book) {
+    public ResponseEntity<Object> getAllBooks() {
+        final List<Book> books = booksService.getAllBooks();
 
-        return new ResponseEntity<>(bookMap.values(), HttpStatus.OK);
+        return books != null && !books.isEmpty()
+                ? new ResponseEntity<>(books,HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+    @RequestMapping(value = "/books/{id}",method = RequestMethod.GET)
+    public ResponseEntity<Object> read(@PathVariable(name = "id")int id){
+        final Book book = booksService.read(id);
 
-
+        return book != null
+                ? new ResponseEntity<>(book,HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @RequestMapping(value = "/books",method = RequestMethod.POST)
     public ResponseEntity<Object> createBook( @RequestBody Book book){
-        //bookMap.put(book.getId(),book);
-          bookMap.put(book.getId(),book);
+        booksService.createBook(book);
          return new ResponseEntity<>("new Book",HttpStatus.CREATED);
-//         if(book.getName() != null && !book.getName().isEmpty() ){
-//             bookMap.put(book.getId(),book);
-//
-//             return new ResponseEntity<>("Book was added",   HttpStatus.CREATED);
-//         }
-//      else {
-//             return new ResponseEntity<>("Book was not added",   HttpStatus.BAD_REQUEST);
-//         }
-    }
-    @RequestMapping(value = "/dto",method = RequestMethod.GET)
-    public ResponseEntity<Object> Get(Dto dto){
-        //преобразование из модели в джейсон
-//        BookResp bookResp =  new ObjectMapper().readValue("{\n" +
-//                "\"name\":2,\n" +
-//                "\"author\":3,\n" +
-//                "\"id\":300\n" +
-//                "}",BookResp.class);
-        return new ResponseEntity<>(DtoMap.values(),HttpStatus.OK);
-    }
-
-
-    @RequestMapping(value = "/dto",method = RequestMethod.POST)
-    public ResponseEntity<Object> add(@RequestBody Dto dto){
-       DtoMap.put(dto.getId(),dto);
-        return new  ResponseEntity<>("New",HttpStatus.CREATED);
     }
 
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updateBooks(@PathVariable("id") String id, @RequestBody Book book) {
-        bookMap.remove(id);
-        book.setId(id);
-        bookMap.put(id, book);
-        return new ResponseEntity<>("Book was updated successfully", HttpStatus.OK);
+    public ResponseEntity<Object> updateBooks(@PathVariable(name = "id") int id, @RequestBody Book book) {
+        final boolean update = booksService.updateBooks(book , id);
+
+        return update
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     @RequestMapping(value = "/books/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(@PathVariable("id")String id){
-        bookMap.remove(id);
-        return new ResponseEntity<>("Books were deleted",HttpStatus.OK);
+    public ResponseEntity<Object> delete(@PathVariable(name = "id")int id){
+        final boolean delete = booksService.delete(id);
+        return delete
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 

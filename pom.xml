@@ -14,56 +14,38 @@
     <name>Spring-Book-demo</name>
     <description>Spring-Book-demo</description>
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
 
     </properties>
-    <dependencyManagement>
-        <dependencies>
-<!--            <dependency>-->
-<!--                <groupId>io.swagger</groupId>-->
-<!--                <artifactId>swagger-jaxrs</artifactId>-->
-<!--                <version>1.5.6</version>-->
-<!--            </dependency>-->
-
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-starter-validation</artifactId>-->
-<!--            </dependency>-->
-
-<!--            &lt;!&ndash; https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator &ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>org.hibernate.validator</groupId>-->
-<!--                <artifactId>hibernate-validator</artifactId>-->
-<!--                <version>7.0.2.Final</version>-->
-<!--            </dependency>-->
-
-
-        </dependencies>
-    </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-jaxrs</artifactId>
-            <version>1.5.6</version>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-
-
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.hibernate.validator</groupId>-->
-<!--            <artifactId>hibernate-validator</artifactId>-->
-<!--            <version>7.0.2.Final</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.10</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -72,22 +54,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-            <version>3.0.14.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
         </dependency>
     </dependencies>
 
