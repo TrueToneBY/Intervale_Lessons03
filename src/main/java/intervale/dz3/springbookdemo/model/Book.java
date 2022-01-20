@@ -36,9 +36,9 @@ public class Book  {
     private int pages;
 
     @Column(name = "weight")
-    private int weight;
+    private double weight;
 
     @Column(name = "price")
-    private int price;
+    private BigDecimal price;
 
 }

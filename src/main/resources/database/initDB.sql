@@ -5,10 +5,10 @@ CREATE TABLE IF NOT EXISTS "public".books
     name VARCHAR(200) NOT NULL ,
     author VARCHAR(200)  NOT NULL ,
     pages INT ,
-    weight INT ,
-    price INT
+    weight DOUBLE PRECISION ,
+    price DECIMAL
     );
 CREATE SEQUENCE public._id_seq START WITH 3 INCREMENT BY 1;
 
---    DROP TABLE IF EXISTS "Book";
---    DROP SEQUENCE IF EXISTS books_id_seq
+--    DROP TABLE IF EXISTS "Books".public.books;
+--    DROP SEQUENCE IF EXISTS public._id_seq
