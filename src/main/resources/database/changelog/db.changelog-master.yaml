@@ -1,0 +1,92 @@
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/example_db
+#    username: root
+#    password: "123"
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+#        show_sql: false
+#        temp:
+#          use_jdbc_metadata_defaults: false
+#  liquibase:
+#    change-log: classpath:database/changelog/db.changelog-master-test.yaml
+
+#spring:
+#  liquibase:
+#    enabled: true
+#    drop-first: false
+#    change-log: classpath:database/changelog/db.changelog-master-test.yaml
+#    default-schema: public
+#databaseChangeLog:
+#  - logicalFilePath:database/changelog/db.changelog-master.yaml
+#  - changeSet:
+#      id: 1
+#      author: your_liquibase_username
+#      changes:
+#        - createTable:
+#            tableName: Bookliquibase
+#            columns:
+#              - column:
+#                  name: id
+#                  type: BIGINT
+#                  autoIncrement: true
+#                  constraints:
+#                    primaryKey: true
+#                    nullable: false
+#              - column:
+#                  name: isbn
+#                  type: varchar(50)
+#                  constraints:
+#                    unique: true
+#                    nullable: false
+#              - column:
+#                  name: name
+#                  type: varchar(512)
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: author
+#                  type: varchar(50)
+#              - column:
+#                  name: last_name
+#                  type: varchar(50)
+#              - column:
+#                  name: email
+#                  type: varchar(50)
+
+#                    - changeSet:
+#                        id: 2
+#                        author: your_liquibase_username
+#                        comment: "Create admin user"
+#                        changes:
+#                          - insert:
+#                              tableName: Bookliquibase
+#                              columns:
+#                                - column:
+#                                    name: isbn
+#                                    value: "admin"
+#                                - column:
+#                                    name: name
+#                                    value: "admin"
+#                                - column:
+#                                    name: author
+#                                    value: "admin@server.com"
+#                          - insert:
+#                              tableName: Bookliquibase
+#                              columns:
+#                                - column:
+#                                    name: name
+#                                    value: "guest"
+#                                - column:
+#                                    name: author
+#                                    value: "guest"
+#                                - column:
+#                                    name: email
+#                                    value: "guest@server.com"
+#                        rollback:
+#                          - delete:
+#                              tableName: Bookliquibase
+#                              where: name in ('admin', 'guest')
