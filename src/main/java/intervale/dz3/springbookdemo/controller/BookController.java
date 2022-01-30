@@ -2,81 +2,75 @@ package intervale.dz3.springbookdemo.controller;
 
 
 
-import intervale.dz3.springbookdemo.model.Book;
-import intervale.dz3.springbookdemo.service.BooksService;
+import intervale.dz3.springbookdemo.model.Books;
+import intervale.dz3.springbookdemo.repository.BookRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/book")
 public class  BookController  {
-
-    private final BooksService booksService;
+    public BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @Autowired
-    public BookController(BooksService booksService) {
-        this.booksService = booksService;
+    BookRepository bookRepository;
+
+
+    @GetMapping
+    public List<Books> getAllBooks(){
+        return bookRepository.getBook();
     }
 
-
-
-
-
-    @RequestMapping(value = "/books",method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllBooks() {
-        final List<Book> books = booksService.getAllBooks();
-
-        return books != null && !books.isEmpty()
-                ? new ResponseEntity<>(books,HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    @RequestMapping(value = "/books/{id}",method = RequestMethod.GET)
-    public ResponseEntity<Object> read(@PathVariable(name = "id")int id){
-        final Book book = booksService.read(id);
-
-        return book != null
-                ? new ResponseEntity<>(book,HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<?> getBooks(@PathVariable("id")Integer id){
+        Books books = bookRepository.findById(id);
+        if (books == null){
+            return new ResponseEntity<String>("Нет книги по такому id " + id, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Books>(books,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/books",method = RequestMethod.POST)
-    public ResponseEntity<Object> createBook( @RequestBody Book book){
-        booksService.createBook(book);
-         return new ResponseEntity<>("new Book",HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<String> createBooks(@RequestBody Books books) throws SQLIntegrityConstraintViolationException {
+        if (bookRepository.findById(books.getId()) != null){
+            return new ResponseEntity<String>("Введите параметры " + books.getId(),HttpStatus.IM_USED);
+        }
+        bookRepository.saveBooks(books);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
-    @RequestMapping(value = "/books/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updateBooks(@PathVariable(name = "id") int id, @RequestBody Book book) {
-        final boolean update = booksService.updateBooks(book , id);
-
-        return update
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-    @RequestMapping(value = "/books/{id}",method = RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(@PathVariable(name = "id")int id){
-        final boolean delete = booksService.delete(id);
-        return delete
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping
+    public ResponseEntity<?> updateBooks(@RequestBody Books books){
+        if (bookRepository.findById(books.getId()) == null){
+            return new ResponseEntity<String>("Обновить список Книги не  удалось по id " + books.getId() + " не найдено",HttpStatus.NOT_FOUND);
+        }
+        bookRepository.updateBooks(books);
+        return new ResponseEntity<Books>(books,HttpStatus.OK);
     }
 
-
-
-
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteBooks(@PathVariable("id") Integer id){
+        Books books = bookRepository.findById(id);
+        if (books == null){
+            return new ResponseEntity<String>("Удалить книгу не удалось по id " + id + " не найдено" ,HttpStatus.NOT_FOUND);
+        }
+        bookRepository.deleteBooksById(id);
+        return new ResponseEntity<Books>(HttpStatus.NO_CONTENT);
+    }
 
     @ExceptionHandler(RuntimeException.class)
     public String handle(RuntimeException e){
         log.error(e.getMessage());
         return "Enter parametrs";
     }
-
 
 }

@@ -37,32 +37,32 @@ databaseChangeLog:
               - changeSet:
                   id: 2
                   author: your_liquibase_username
-                  comment: "Create admin user"
+                  comment: Create admin user
                   changes:
                     - insert:
                         tableName: users
                         columns:
                           - column:
                               name: username
-                              value: "admin"
+                              value: admin
                           - column:
                               name: password
-                              value: "admin"
+                              value: admin
                           - column:
                               name: email
-                              value: "admin@server.com"
+                              value: admin@server.com
                     - insert:
                         tableName: users
                         columns:
                           - column:
                               name: username
-                              value: "guest"
+                              value: guest
                           - column:
                               name: password
-                              value: "guest"
+                              value: guest
                           - column:
                               name: email
-                              value: "guest@server.com"
+                              value: guest@server.com
                   rollback:
                     - delete:
                         tableName: users
