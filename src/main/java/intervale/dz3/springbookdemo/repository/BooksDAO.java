@@ -4,23 +4,43 @@ import intervale.dz3.springbookdemo.model.Books;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 
 @Repository
-public class BookRepository {
+public class BooksDAO extends BookRowMapper {
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    public Books getAuthor(String author) {
+        List<Books> books = this.jdbcTemplate.query(
+                "select author from books",
+                new BookRowMapper() {
+                    public Books mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        Books books1 = new Books();
+                        books1.setAuthor(rs.getString("first_name"));
+                        return books1;
+                    }
+                });
+        return new Books();
+    }
+
+//    @Transactional(readOnly = true)
     public List<Books> getBook() {
         return jdbcTemplate.query("select id,isbn,name,author,pages,weight,price from books", new BookRowMapper());
     }
+
+
 
     public Books findById(Integer id) {
         String sql = "SELECT * FROM books WHERE ID = ?";
@@ -44,7 +64,7 @@ public class BookRepository {
                 ps.setString(4, books.getAuthor());
                 ps.setInt(5, books.getPages());
                 ps.setDouble(6, books.getWeight());
-                ps.setBigDecimal(7, books.getPrice());
+                ps.setInt(7, books.getPrice());
 
                 return ps.execute();
             }
@@ -68,6 +88,13 @@ public class BookRepository {
     }
 
     public Integer deleteBooksById(Integer id) {
-        return jdbcTemplate.update("delete from books where id = ?",id);
+        return jdbcTemplate.update("delete from books where id = ?", id);
     }
+
+    public List<Books> findByTitleBook(boolean name) {
+        String q = "SELECT * from books WHERE name ILIKE '%" + name + "%'";
+        return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Books.class));
+    }
+
+
 }

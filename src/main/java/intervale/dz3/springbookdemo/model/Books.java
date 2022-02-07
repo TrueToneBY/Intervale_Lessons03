@@ -1,11 +1,18 @@
 package intervale.dz3.springbookdemo.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import intervale.dz3.springbookdemo.deserialazer.BooksDeserialazer;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 
 @Data
-public class Books {
+@AllArgsConstructor
+@JsonDeserialize(using = BooksDeserialazer.class)
+@Validated
+public class Books  {
 
     private Integer id;
 
@@ -19,6 +26,11 @@ public class Books {
 
     private double weight;
 
-    private BigDecimal price;
+    private int price;
+    private boolean book;
+
+    public Books() {
+
+    }
 
 }
