@@ -12,3 +12,4 @@
 
 --    DROP TABLE IF EXISTS "Books".public.books;
 --    DROP SEQUENCE IF EXISTS public._id_seq
+SELECT name FROM books where name = ?

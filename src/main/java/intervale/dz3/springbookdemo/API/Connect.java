@@ -1,4 +1,4 @@
-package intervale.dz3.springbookdemo.controller;
+package intervale.dz3.springbookdemo.API;
 
 import java.math.BigDecimal;
 import java.sql.*;

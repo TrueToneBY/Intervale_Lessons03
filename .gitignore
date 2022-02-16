@@ -3,6 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+src/main/java/intervale/dz3/springbookdemo/model/Page.java
+src/main/java/intervale/dz3/springbookdemo/model/Application.java
 
 ### STS ###
 .apt_generated
@@ -14,12 +16,15 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
+
 .idea
 *.iws
 *.iml
 *.ipr
 
 ### NetBeans ###
+/model/Page
+/model/Application
 /nbproject/private/
 /nbbuild/
 /dist/

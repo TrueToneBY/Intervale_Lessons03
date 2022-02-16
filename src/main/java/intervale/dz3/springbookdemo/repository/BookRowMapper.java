@@ -21,9 +21,9 @@ public class BookRowMapper implements RowMapper {
         books.setPages(rs.getInt("pages"));
         books.setWeight(rs.getDouble("weight"));
         books.setPrice(rs.getInt("price"));
-        books.setBook(rs.getBoolean("book"));
 
         return books;
 
     }
+
 }

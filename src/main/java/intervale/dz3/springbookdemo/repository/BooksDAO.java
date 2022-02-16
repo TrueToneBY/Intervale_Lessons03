@@ -1,5 +1,6 @@
 package intervale.dz3.springbookdemo.repository;
 
+import intervale.dz3.springbookdemo.BL.BooksRepository;
 import intervale.dz3.springbookdemo.model.Books;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -7,54 +8,60 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 
 @Repository
-public class BooksDAO extends BookRowMapper {
+public class BooksDAO extends BookRowMapper implements BooksRepository {
+
+    final String GET_QUERY = "select id,isbn,name,author,pages,weight,price from books";
+    final String GET_BY_ID_QUERY = "SELECT * FROM books WHERE ID = ?";
+    final String GET_BY_NAME_QUERY = "SELECT name FROM books where name = ?";
+    final String INSERT_QUERY = "insert into books values(?,?,?,?,?,?,?)";
+    final String UPDATE_QUERY = "update books set isbn=?, name=?, author=?, pages=?, weight=?, price=? WHERE id=?";
+    final String DELETE_QUERY = "delete from books where id = ?";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    public Books getAuthor(String author) {
-        List<Books> books = this.jdbcTemplate.query(
-                "select author from books",
-                new BookRowMapper() {
-                    public Books mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        Books books1 = new Books();
-                        books1.setAuthor(rs.getString("first_name"));
-                        return books1;
-                    }
-                });
-        return new Books();
-    }
 
-//    @Transactional(readOnly = true)
+    @Override
     public List<Books> getBook() {
-        return jdbcTemplate.query("select id,isbn,name,author,pages,weight,price from books", new BookRowMapper());
+        return jdbcTemplate.query(GET_QUERY, new BookRowMapper());
     }
 
-
-
-    public Books findById(Integer id) {
-        String sql = "SELECT * FROM books WHERE ID = ?";
+    @Override
+    public Books ByIdBooksName(String name) {
         try {
             return (Books) this.jdbcTemplate.queryForObject(
-                    sql, new Object[]{id}, new BookRowMapper());
+                    GET_BY_NAME_QUERY, new String[]{name}, new BookRowMapper());
         } catch (EmptyResultDataAccessException exception) {
             return null;
         }
     }
 
+
+    @Override
+    public Books findBooksById(Integer id) {
+        try {
+            return (Books) this.jdbcTemplate.queryForObject(
+                    GET_BY_ID_QUERY, new Object[]{id}, new BookRowMapper());
+        } catch (EmptyResultDataAccessException exception) {
+            return null;
+        }
+    }
+
+    @Override
     public boolean saveBooks(Books books) {
-        String query = "insert into books values(?,?,?,?,?,?,?)";
-        return jdbcTemplate.execute(query, new PreparedStatementCallback<Boolean>() {
+        return jdbcTemplate.execute(INSERT_QUERY, new PreparedStatementCallback<Boolean>() {
             @Override
             public Boolean doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
 
@@ -72,8 +79,8 @@ public class BooksDAO extends BookRowMapper {
 
     }
 
+    @Override
     public Integer updateBooks(Books books) {
-        String query = "update books set isbn=?, name=?, author=?, pages=?, weight=?, price=? WHERE id=?";
         Object[] params = {
                 books.getIsbn(),
                 books.getName(),
@@ -84,17 +91,12 @@ public class BooksDAO extends BookRowMapper {
                 books.getId()};
         int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.DOUBLE, Types.BIGINT, Types.INTEGER};
 
-        return jdbcTemplate.update(query, params, types);
+        return jdbcTemplate.update(UPDATE_QUERY, params, types);
     }
 
+    @Override
     public Integer deleteBooksById(Integer id) {
-        return jdbcTemplate.update("delete from books where id = ?", id);
+        return jdbcTemplate.update(DELETE_QUERY, id);
     }
-
-    public List<Books> findByTitleBook(boolean name) {
-        String q = "SELECT * from books WHERE name ILIKE '%" + name + "%'";
-        return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Books.class));
-    }
-
 
 }

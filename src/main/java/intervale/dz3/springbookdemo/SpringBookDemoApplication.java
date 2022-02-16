@@ -15,5 +15,4 @@ public class SpringBookDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBookDemoApplication.class, args);
     }
-
 }

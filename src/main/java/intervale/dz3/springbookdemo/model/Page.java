@@ -1,19 +1,15 @@
 package intervale.dz3.springbookdemo.model;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.validation.annotation.Validated;
-
-import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Validated
-public class Books  {
-
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Page {
     private Integer id;
 
     private String isbn;
