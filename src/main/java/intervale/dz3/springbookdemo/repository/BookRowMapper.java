@@ -1,18 +1,19 @@
 package intervale.dz3.springbookdemo.repository;
 
 import intervale.dz3.springbookdemo.model.Books;
+import intervale.dz3.springbookdemo.model.BooksDto;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class BookRowMapper implements RowMapper {
+public class BookRowMapper implements RowMapper<BooksDto> {
 
 
     @Override
-    public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public BooksDto mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-        Books books = new Books();
+        BooksDto books = new BooksDto();
 
         books.setId(rs.getInt("id"));
         books.setIsbn(rs.getString("isbn"));

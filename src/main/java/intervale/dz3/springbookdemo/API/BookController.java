@@ -1,19 +1,23 @@
 package intervale.dz3.springbookdemo.API;
 
-
-
 import intervale.dz3.springbookdemo.BL.BooksRepository;
+import intervale.dz3.springbookdemo.booksJson.model.Open;
+import intervale.dz3.springbookdemo.booksJson.model.Post;
 import intervale.dz3.springbookdemo.model.Books;
+import intervale.dz3.springbookdemo.model.BooksDto;
 import intervale.dz3.springbookdemo.repository.BooksDAO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -21,6 +25,8 @@ import java.util.List;
 @RequestMapping(value = "/books",
         produces = MediaType.APPLICATION_JSON_VALUE)
 public class  BookController  {
+    @Autowired
+    RestTemplate restTemplate;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -28,8 +34,8 @@ public class  BookController  {
     @Autowired
     BooksRepository booksRepository;
 
-//    @Autowired
-//    BooksDAO booksDAO;
+    @Autowired
+    BooksDAO booksDAO;
 
 //    @RequestMapping(value ="/name/{name}", method = RequestMethod.GET)
 //    @ResponseBody
@@ -39,29 +45,46 @@ public class  BookController  {
 //
 //    }
     @GetMapping(value = "/id/name/{name}")
-    public ResponseEntity<?> getBooksIdName(@PathVariable("name")String id){
-        Books books = booksRepository.ByIdBooksName(id);
+    public ResponseEntity<?> getBooksIdName(@PathVariable("name")String name){
+       Books books = booksRepository.ByIdBooksName(name);
         if (books == null ){
-            return new ResponseEntity<String>("Нет книги по такому id " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Нет книги по такому id " + name, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Books>(books,HttpStatus.OK);
+        return new ResponseEntity<Books>((Books) books,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getBooks")
+    public Books[] getProductList() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+        log.info("Good Parsing");
+        return restTemplate.exchange("http://localhost:8081/books", HttpMethod.GET, entity, Books[].class).getBody();
+    }
+    @RequestMapping(value = "/getOpen")
+    public Open[] getOpentList() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+        log.info("Good Parsing");
+        return restTemplate.exchange("http://openlibrary.org/api/get?key=/b/OL1001932M", HttpMethod.GET, entity, Open[].class).getBody();
     }
 
 
 
     @GetMapping
-    public List<Books> getAllBooks(){
+    public List<BooksDto> getAllBooks(){
         return booksRepository.getBook();
     }
 
 
     @GetMapping(value = "/id/{id}")
     public ResponseEntity<?> getBooksId(@PathVariable("id")Integer id){
-        Books books = booksRepository.findBooksById(id);
+        BooksDto books = booksRepository.findBooksById(id);
         if (books == null){
             return new ResponseEntity<String>("Нет книги по такому id " + id, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Books>(books,HttpStatus.OK);
+        return new ResponseEntity<BooksDto>(books,HttpStatus.OK);
     }
 
 
@@ -85,7 +108,7 @@ public class  BookController  {
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> deleteBooks(@PathVariable("id") Integer id){
-        Books books = booksRepository.findBooksById(id);
+        BooksDto books = booksRepository.findBooksById(id);
         if (books == null){
             return new ResponseEntity<String>("Удалить книгу не удалось по id " + id + " не найдено" ,HttpStatus.NOT_FOUND);
         }

@@ -1,5 +1,6 @@
 package intervale.dz3.springbookdemo.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,5 +11,9 @@ public class BeansConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
+    }
+    @Bean
+    public ModelMapper getMapperModel() {
+        return new ModelMapper();
     }
 }

@@ -1,6 +1,7 @@
 package intervale.dz3.springbookdemo.BL;
 
 import intervale.dz3.springbookdemo.model.Books;
+import intervale.dz3.springbookdemo.model.BooksDto;
 
 import java.util.List;
 
@@ -10,11 +11,11 @@ public interface BooksRepository {
 
     Integer updateBooks(Books books);
 
-    Books findBooksById(Integer id);
+    BooksDto findBooksById(Integer id);
 
     Books ByIdBooksName(String name);
 
     Integer deleteBooksById(Integer id);
 
-    List<Books> getBook();
+    List<BooksDto> getBook();
 }
