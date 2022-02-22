@@ -3,8 +3,6 @@ package intervale.dz3.springbookdemo.repository;
 import intervale.dz3.springbookdemo.BL.BooksRepository;
 import intervale.dz3.springbookdemo.model.Books;
 import intervale.dz3.springbookdemo.model.BooksDto;
-import intervale.dz3.springbookdemo.openlibrary.repository.model.maper.WorkMapper;
-import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,42 +18,29 @@ import java.sql.Types;
 import java.util.List;
 
 @Repository
-public class BooksDAO extends BookRowMapper implements BooksRepository {
+public class BooksDAO<author> extends BookRowMapper implements BooksRepository<BooksDto> {
 
     final String GET_QUERY = "select id,isbn,name,author,pages,weight,price from books";
     final String GET_BY_ID_QUERY = "SELECT * FROM books WHERE ID = ?";
-    final String GET_BY_NAME_QUERY = "SELECT * FROM books where name = ?";
+    final String GET_BY_AUTHOR_QUERY = "SELECT * FROM Books where author = ?";
+    final String GET_BY_NAME_QUERY = "SELECT * FROM Books where name = ?";
+    final String GET_BY_ISBN_QUERY = "SELECT * FROM Books where isbn = ?";
     final String INSERT_QUERY = "insert into books values(?,?,?,?,?,?,?)";
     final String UPDATE_QUERY = "update books set isbn=?, name=?, author=?, pages=?, weight=?, price=? WHERE id=?";
     final String DELETE_QUERY = "delete from books where id = ?";
 
+
     @Autowired
     JdbcTemplate jdbcTemplate;
     public List<BooksDto> getBooksByAuthor(String author) {
-        String sql = "SELECT * FROM BOOKS WHERE LOWER(AUTHOR) LIKE LOWER(?)";
+        String sql = "SELECT * FROM BOOKS WHERE author LIKE LOWER(?)";
         return jdbcTemplate.query(sql, new BookRowMapper(), new String[] {'%' + author + '%'});
-    }
-
-    public List<Work> getBooksByAuthorAsWork(String author) {
-        String sql = "SELECT * FROM BOOKS WHERE LOWER(AUTHOR) LIKE LOWER(?)";
-        return jdbcTemplate.query(sql, new WorkMapper(), new String[] {'%' + author + '%'});
     }
 
 
     @Override
     public List<BooksDto> getBook() {
         return jdbcTemplate.query(GET_QUERY, new BookRowMapper());
-    }
-
-    @Override
-    public Books ByIdBooksName(String name) {
-        try {
-            return (Books) jdbcTemplate.query(
-                    GET_BY_NAME_QUERY, new BeanPropertyRowMapper<>(Books.class),name);
-        } catch (EmptyResultDataAccessException exception) {
-
-            return null;
-        }
     }
 
 
@@ -68,6 +53,33 @@ public class BooksDAO extends BookRowMapper implements BooksRepository {
             return null;
         }
     }
+
+    @Override
+    public List<BooksDto> findByAuthor(String author) {
+        try {
+            return jdbcTemplate.query(GET_BY_AUTHOR_QUERY,new BookRowMapper(),author);
+        }catch (Exception exception){
+            return null;
+        }
+    }
+
+    @Override
+    public List<BooksDto> findByName(String name) {
+        try {
+            return jdbcTemplate.query(GET_BY_NAME_QUERY,new BookRowMapper(),name);
+        }catch (Exception exception){
+            return null;
+        }
+    }
+    @Override
+    public List<BooksDto> findByISBN(String isbn) {
+        try {
+            return jdbcTemplate.query(GET_BY_ISBN_QUERY,new BookRowMapper(),isbn);
+        }catch (Exception exception){
+            return null;
+        }
+    }
+
 
     @Override
     public boolean saveBooks(Books books) {

@@ -1,22 +1,42 @@
 package intervale.dz3.springbookdemo.repository;
 
-import intervale.dz3.springbookdemo.model.Books;
-import org.junit.Assert;
+import intervale.dz3.springbookdemo.BL.BooksRepository;
+import intervale.dz3.springbookdemo.model.BooksDto;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(classes={ BooksDAO.class })
 public class BookRowMapperTest {
+
+    @Autowired
+    BooksDAO booksDAO;
+
+    public void getTest(){
+        Mockito.when(booksDAO.getBook());
+    }
+
+
 
     @Test
     public void mapRow() throws SQLException {
-        ResultSet rs = mock(ResultSet.class);
+        BooksRepository repository = new BooksDAO();
+        List<BooksDAO> booksDAOList = repository.getBook();
+
+        System.out.println(booksDAOList);
+
+
+
 //
 //        when(rs.getInt("id")).thenReturn(1);
 //        when(rs.getString("isbn")).thenReturn("2232323232323");
@@ -30,4 +50,18 @@ public class BookRowMapperTest {
 //        Assert.assertEquals(books,new BookRowMapper().mapRow(rs,1));
 //
     }
+    @Test
+    public void testFindByAuthor(){
+        BooksRepository repository = new BooksDAO();
+        List<BooksDAO> booksDAOList = repository.findByAuthor("Vassily");
+        System.out.println(booksDAOList);
+
+    }
+    @Test
+    public void testgetBooksByAuthor(){
+        BooksDAO booksDAO = new BooksDAO();
+        List<BooksDto> booksDAOList = booksDAO.getBooksByAuthor("author");
+        System.out.println(booksDAOList);
+    }
+
 }

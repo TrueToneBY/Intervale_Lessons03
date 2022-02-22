@@ -5,7 +5,7 @@ import intervale.dz3.springbookdemo.model.BooksDto;
 
 import java.util.List;
 
-public interface BooksRepository {
+public interface BooksRepository<k> {
 
     boolean saveBooks  (Books books);
 
@@ -13,9 +13,14 @@ public interface BooksRepository {
 
     BooksDto findBooksById(Integer id);
 
-    Books ByIdBooksName(String name);
+    List<BooksDto>findByAuthor(String author);
+
+    List<BooksDto>findByName(String name);
+
+    List<BooksDto> findByISBN(String isbn);
 
     Integer deleteBooksById(Integer id);
 
     List<BooksDto> getBook();
+
 }

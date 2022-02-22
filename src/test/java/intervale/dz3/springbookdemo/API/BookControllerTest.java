@@ -4,31 +4,54 @@ package intervale.dz3.springbookdemo.API;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import intervale.dz3.springbookdemo.BL.BooksRepository;
+import intervale.dz3.springbookdemo.model.Books;
+import intervale.dz3.springbookdemo.model.BooksDto;
+import intervale.dz3.springbookdemo.repository.BooksDAO;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.verification.VerificationMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BookControllerTest {
-//    @Autowired
-//    private MockMvc mockMvc;
-//    @Mock
-//    private BooksDAO bookDao;
-//    @Mock
-//    private Books book;
-//    @Mock
-//    private BooksDto booksDto;
-//
-//    @InjectMocks
-//    private BookController bookController;
+    @Autowired
+    private MockMvc mockMvc;
+    @Mock
+    private BooksDAO bookDao;
+    @Mock
+    private Books book;
+    @Mock
+    private BooksDto booksDto;
 
-//    @Test
-//    public void getAllBooks() {
+    @InjectMocks
+    private BookController bookController;
+
+    @Test
+    public void getAllBooks() {
+
+
+
 //        ArrayList<Books> books = new ArrayList<>();
 //        when(bookDao.getBook()).thenReturn(books);
 //
@@ -38,10 +61,10 @@ public class BookControllerTest {
 //
 //        assertEquals(new ResponseEntity(books, HttpStatus.OK), bookController.getBooksId(1));
 //        verify(bookDao, times(1)).getBook();
-//    }
-//
-//
-//
+    }
+
+
+
 //    @Test
 //    public void getBooksId(String s) throws Exception {
 //        when(bookDao.findById(1)).thenReturn(book);
@@ -72,9 +95,8 @@ public class BookControllerTest {
 //                        "A.A. Kuznez", 5, 5, 5,true))).contentType(MediaType.APPLICATION_JSON)).
 //                andExpect(status().isForbidden()).andExpect(content().string("Incorrect argument to initialization."));
 //    }
-//
-//
-//
+
+
 //    @Test
 //    public void testDeleteBook() throws Exception {
 //        when(bookDao.deleteBooksById(2)).thenReturn(2);
@@ -89,4 +111,4 @@ public class BookControllerTest {
 //    }
 
 
-}
+    }
