@@ -8,8 +8,8 @@
         <version>2.6.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>intervale.dz3</groupId>
-    <artifactId>Spring-Book-demo</artifactId>
+    <groupId>com.intervale.cources.library</groupId>
+    <artifactId>Spring-Library</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Spring-Book-demo</name>
     <description>Spring-Book-demo</description>
