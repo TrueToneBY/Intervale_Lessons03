@@ -13,9 +13,9 @@ public interface BooksRepository<k> {
 
     BooksDto findBooksById(Integer id);
 
-    List<BooksDto>findByAuthor(String author);
+    List<BooksDto> findByAuthor(String author);
 
-    List<BooksDto>findByName(String name);
+    List<BooksDto> findByName(String name);
 
     List<BooksDto> findByISBN(String isbn);
 

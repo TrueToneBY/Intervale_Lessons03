@@ -1,12 +1,10 @@
 package intervale.dz3.springbookdemo.API;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import intervale.dz3.springbookdemo.BL.BooksRepository;
 import intervale.dz3.springbookdemo.model.Books;
 import intervale.dz3.springbookdemo.model.BooksDto;
 import intervale.dz3.springbookdemo.repository.BooksDAO;
 import lombok.extern.slf4j.Slf4j;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,11 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 
-import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
 
 
 @Slf4j
@@ -77,7 +72,7 @@ public class  BookController  {
     @GetMapping(value = "/get/id/{id}")
     public ResponseEntity<?> getBooksId(@PathVariable("id")Integer id){
         BooksDto books = booksRepository.findBooksById(id);
-        if (books == null){
+        if (books == null ){
             return new ResponseEntity<String>("Нет книги по такому id " + id, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<BooksDto>(books,HttpStatus.OK);

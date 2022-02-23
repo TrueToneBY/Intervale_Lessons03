@@ -4,8 +4,7 @@ package intervale.dz3.springbookdemo.API;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,18 +21,25 @@ import org.mockito.Mock;
 import org.mockito.verification.VerificationMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestPropertySource(
+        locations = "classpath:application.yml")
 public class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -50,19 +56,52 @@ public class BookControllerTest {
     @Test
     public void getAllBooks() {
 
-
-
-//        ArrayList<Books> books = new ArrayList<>();
+//        ArrayList<BooksDto> books = new ArrayList<>();
 //        when(bookDao.getBook()).thenReturn(books);
 //
 //        assertEquals(new ResponseEntity("No data found.", HttpStatus.BAD_REQUEST), bookController.getBooksId(1));
-//        when(books.add(book));
-//        books.add(book);
+//        when(books.add(booksDto));
+//        books.add(booksDto);
 //
 //        assertEquals(new ResponseEntity(books, HttpStatus.OK), bookController.getBooksId(1));
 //        verify(bookDao, times(1)).getBook();
     }
 
+    @Test
+    public void getBooksbyAuthor() {
+    }
+
+    @Test
+    public void getBooksbyName() {
+    }
+
+    @Test
+    public void getBooksbyISBN() {
+    }
+
+    @Test
+    public void testGetAllBooks() {
+    }
+
+    @Test
+    public void getBooksId() {
+    }
+
+    @Test
+    public void createBooks() {
+    }
+
+    @Test
+    public void updateBooks() {
+    }
+
+    @Test
+    public void deleteBooks() {
+    }
+
+    @Test
+    public void handle() {
+    }
 
 
 //    @Test

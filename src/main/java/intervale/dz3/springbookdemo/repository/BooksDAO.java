@@ -6,7 +6,6 @@ import intervale.dz3.springbookdemo.model.BooksDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.stereotype.Repository;
@@ -18,7 +17,7 @@ import java.sql.Types;
 import java.util.List;
 
 @Repository
-public class BooksDAO<author> extends BookRowMapper implements BooksRepository<BooksDto> {
+public class BooksDAO extends BookRowMapper implements BooksRepository<BooksDto> {
 
     final String GET_QUERY = "select id,isbn,name,author,pages,weight,price from books";
     final String GET_BY_ID_QUERY = "SELECT * FROM books WHERE ID = ?";
