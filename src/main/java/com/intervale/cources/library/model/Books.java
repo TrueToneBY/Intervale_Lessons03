@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +28,9 @@ public class Books  {
     private double weight;
 
     private int price;
+
+    private double usd;
+
+    private double rub;
 
 }

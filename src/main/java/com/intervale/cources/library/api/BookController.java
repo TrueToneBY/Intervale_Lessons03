@@ -33,6 +33,16 @@ public class  BookController  {
         return new ResponseEntity<List>(books,HttpStatus.OK);
     }
 
+    @GetMapping(value = "/price/{title}")
+    public ResponseEntity<?> getBooksByPrice(@PathVariable("title")Integer price){
+        List<BooksDto> books = booksRepository.findByPrice(price);
+        if (books.toArray().length <= 0){
+            return new ResponseEntity<String>("Нет такой книги по price " + price,HttpStatus.NOT_FOUND);
+        }
+        log.info("Сработал GET запрос /price/{title}");
+        return new ResponseEntity<List>(books,HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/title/{name}")
     public ResponseEntity<?> getBooksByName(@PathVariable("name")String name){

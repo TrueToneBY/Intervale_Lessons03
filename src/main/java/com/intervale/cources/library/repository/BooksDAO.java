@@ -24,9 +24,11 @@ public class BooksDAO extends BookRowMapper implements BooksRepository<BooksDto>
     final String GET_BY_AUTHOR_QUERY = "SELECT * FROM Books where author = ?";
     final String GET_BY_NAME_QUERY = "SELECT * FROM Books where name = ?";
     final String GET_BY_ISBN_QUERY = "SELECT * FROM Books where isbn = ?";
+    final String GET_BY_PRICE = "select * from Books where price = ?";
     final String INSERT_QUERY = "insert into books values(?,?,?,?,?,?,?)";
     final String UPDATE_QUERY = "update books set isbn=?, name=?, author=?, pages=?, weight=?, price=? WHERE id=?";
     final String DELETE_QUERY = "delete from books where id = ?";
+
 
 
     @Autowired
@@ -74,6 +76,15 @@ public class BooksDAO extends BookRowMapper implements BooksRepository<BooksDto>
     public List<BooksDto> findByIsbn(String isbn) {
         try {
             return jdbcTemplate.query(GET_BY_ISBN_QUERY,new BookRowMapper(),isbn);
+        }catch (Exception exception){
+            return null;
+        }
+    }
+
+    @Override
+    public List<BooksDto> findByPrice(Integer price) {
+        try {
+            return jdbcTemplate.query(GET_BY_PRICE,new BookRowMapper(),price);
         }catch (Exception exception){
             return null;
         }

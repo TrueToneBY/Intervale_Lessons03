@@ -1,15 +1,17 @@
 package com.intervale.cources.library.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class BooksDto {
+
+    @NotNull
     private Integer id;
 
     private String isbn;

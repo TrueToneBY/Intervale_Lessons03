@@ -19,6 +19,8 @@ public interface BooksRepository<k> {
 
     List<BooksDto> findByIsbn(String isbn);
 
+    List<BooksDto> findByPrice(Integer price);
+
     Integer deleteBooksById(Integer id);
 
     List<BooksDto> getBook();
