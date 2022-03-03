@@ -8,14 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OpenLibrarySearchResponse {
+public class OpenLibrarySearchResponse  {
 
     @JsonProperty("start")
     private Integer start;
@@ -25,6 +26,8 @@ public class OpenLibrarySearchResponse {
 
     @JsonProperty("docs")
     private List<OpenLibraryDocs> docs;
+
+
 
 
 }
