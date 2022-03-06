@@ -3,12 +3,18 @@ package com.intervale.cources.library.api;
 import com.intervale.cources.library.business.BooksRepository;
 import com.intervale.cources.library.model.Books;
 import com.intervale.cources.library.model.BooksDto;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.awt.print.Book;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
@@ -74,6 +80,8 @@ public class  BookController  {
     }
 
 
+    //для swagger
+    @Operation(summary = "Get a book by its id")
     @GetMapping(value = "/get/id/{id}")
     public ResponseEntity<?> getBooksId(@PathVariable("id")Integer id){
         BooksDto books = booksRepository.findBooksById(id);

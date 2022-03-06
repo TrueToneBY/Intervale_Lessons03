@@ -1,7 +1,6 @@
 package com.intervale.cources.library.repository;
 
-import com.intervale.cources.library.openlibrary.OpenLibraryDocs;
-import com.intervale.cources.library.openlibrary.OpenLibrarySearchResponse;
+import com.intervale.cources.library.external.openlibrary.OpenLibrarySearchResponse;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
@@ -9,19 +8,17 @@ import com.jayway.jsonpath.spi.json.JacksonJsonProvider;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import com.jayway.jsonpath.spi.mapper.MappingProvider;
-import liquibase.pro.packaged.T;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import org.testng.annotations.BeforeClass;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)

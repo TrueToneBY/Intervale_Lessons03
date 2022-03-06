@@ -3,8 +3,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/main/java/com/intervale/cources/library/model/Page.java
-src/main/java/com/intervale/cources/library/model/Application.java
+lib/main/java/com/intervale/cources/library/model/Page.java
+lib/main/java/com/intervale/cources/library/model/Application.java
 
 ### STS ###
 .apt_generated

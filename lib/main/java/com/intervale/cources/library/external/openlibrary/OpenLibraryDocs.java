@@ -1,4 +1,4 @@
-package com.intervale.cources.library.openlibrary;
+package com.intervale.cources.library.external.openlibrary;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,9 +13,9 @@ import java.util.ArrayList;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OpenLibraryDocs {
+public class OpenLibraryDocs extends OpenLibrarySearchResponse {
 
     @JsonProperty("cover_i")
     private Integer cover;
