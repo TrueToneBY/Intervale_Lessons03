@@ -27,17 +27,17 @@ public class OpenLibraryController {
         log.info("Сработал GET запрос getAllBooks");
         return openService.getOpen();
     }
-    @GetMapping(value = "/author{authorName}")
+    @GetMapping(value = "/author/{authorName}")
     public ResponseEntity<?> getBooksByAuthor(@PathVariable("authorName")String authorName){
         List<OpenLibraryDocs> books = openService.getOpenAuthor(authorName);
         if (books.toArray().length == 0){
-            return new ResponseEntity<String>("Нет такой книги isbn " + authorName, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Нет такой книги author " + authorName, HttpStatus.NOT_FOUND);
         }
         log.info("Сработал GET запрос /author/{authorName}");
         return new ResponseEntity<List>(books,HttpStatus.OK);
     }
 
-    @GetMapping("/works:{author}")
+    @GetMapping("/works/{author}")
     public  ResponseEntity<Object> getWorksByAuthor(@PathVariable  @Parameter(description = "Ф.И.О. автора.") @NotBlank String author) {
         ResponseEntity<Object> response;
         List<OpenLibraryDocs> works = openService.getOpenAuthor(author);

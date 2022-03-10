@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,7 +38,7 @@ public class OpenService {
     }
 
     public List<OpenLibraryDocs> getOpenAuthor(String authorName) {
-        return restTemplate.getForObject(BASE_URL_AUTHOR + authorName,OpenLibrarySearchResponse.class).getDocs();
+        return restTemplate.getForObject(BASE_URL_AUTHOR + authorName, OpenLibrarySearchResponse.class).getDocs();
     }
 }
 
