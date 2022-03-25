@@ -15,7 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-@Slf4j
 public class OpenService {
     private static final String BASE_URL = "https://openlibrary.org/search.json?q=the+lord+of+the+rings&page=2";
     private static final String BASE_URL_AUTHOR = "https://openlibrary.org/search.json?author=";

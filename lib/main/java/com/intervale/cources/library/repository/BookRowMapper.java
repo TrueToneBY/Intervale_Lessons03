@@ -1,5 +1,6 @@
 package com.intervale.cources.library.repository;
 
+import com.intervale.cources.library.model.Books;
 import com.intervale.cources.library.model.BooksDto;
 import org.springframework.jdbc.core.RowMapper;
 

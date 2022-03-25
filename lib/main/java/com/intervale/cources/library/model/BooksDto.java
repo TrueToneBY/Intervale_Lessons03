@@ -8,10 +8,9 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BooksDto {
+public class BooksDto extends Books {
 
     @NotNull
     private Integer id;

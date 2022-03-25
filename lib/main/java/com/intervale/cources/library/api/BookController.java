@@ -1,6 +1,7 @@
 package com.intervale.cources.library.api;
 
 import com.intervale.cources.library.business.BooksRepository;
+import com.intervale.cources.library.exception.BookNotFoundException;
 import com.intervale.cources.library.model.Books;
 import com.intervale.cources.library.model.BooksDto;
 import io.swagger.annotations.ApiResponse;
@@ -28,12 +29,15 @@ public class  BookController  {
     @Autowired
     BooksRepository booksRepository;
 
+    public BookController(BooksRepository booksRepository) {
+        this.booksRepository = booksRepository;
+    }
 
     @GetMapping(value = "/name/{author}")
     public ResponseEntity<?> getBooksByAuthor(@PathVariable("author")String author){
         List<BooksDto> books = booksRepository.findByAuthor(author);
         if (books.toArray().length == 0 ){
-            return new ResponseEntity<String>("Нет такого автора" + author, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Нет такого автора = " + author, HttpStatus.NOT_FOUND);
         }
         log.info("Сработал GET запрос /name/{author}");
         return new ResponseEntity<List>(books,HttpStatus.OK);
@@ -72,8 +76,16 @@ public class  BookController  {
     }
 
 
+//    @Operation(summary = "Get all foos")
+//    @ApiResponses(value = [
+//            ApiResponse(responseCode = "200", description = "Found Foos", content = [
+//            (Content(mediaType = "application/json", array = (
+//                    ArraySchema(schema = Schema(implementation = Foo::class)))))]),
+//    ApiResponse(responseCode = "400", description = "Bad request", content = [Content()]),
+//    ApiResponse(responseCode = "404", description = "Did not find any Foos", content = [Content()])]
+//            )
     @GetMapping
-    public List<BooksDto> getAllBooks(){
+    public List<BooksDto> getAllBooks() {
         log.info("Сработал GET запрос getAllBooks");
         return booksRepository.getBook();
 
@@ -82,6 +94,14 @@ public class  BookController  {
 
     //для swagger
     @Operation(summary = "Get a book by its id")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Found the book",
+//                    content = { @Content(mediaType = "application/json",
+//                            schema = @Schema(implementation = Book.class)) }),
+//            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+//                    content = @Content),
+//            @ApiResponse(responseCode = "404", description = "Book not found",
+//                    content = @Content) })
     @GetMapping(value = "/get/id/{id}")
     public ResponseEntity<?> getBooksId(@PathVariable("id")Integer id){
         BooksDto books = booksRepository.findBooksById(id);
@@ -94,8 +114,9 @@ public class  BookController  {
 
 
     @PostMapping("/create")
-    public ResponseEntity<String> createBooks(@RequestBody Books books) throws SQLIntegrityConstraintViolationException {
+    public ResponseEntity<String> createBooks(@RequestBody BooksDto books) {
         if (booksRepository.findBooksById(books.getId()) != null){
+            //log.error("Введите параметры " + books.getId(),HttpStatus.IM_USED);
             return new ResponseEntity<String>("Введите параметры " + books.getId(),HttpStatus.IM_USED);
         }
         log.info("Сработал Post запрос /create");
@@ -104,7 +125,7 @@ public class  BookController  {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateBooks(@RequestBody Books books){
+    public ResponseEntity<?> updateBooks(@RequestBody BooksDto books){
         if (booksRepository.findBooksById(books.getId()) == null){
             return new ResponseEntity<String>("Обновить список Книги не  удалось по id " + books.getId() + " не найдено",HttpStatus.NOT_FOUND);
         }
@@ -121,7 +142,7 @@ public class  BookController  {
         }
         log.info("Сработал Delete запрос /delete/{id}");
         booksRepository.deleteBooksById(id);
-        return new ResponseEntity<Books>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<BooksDto>(HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(RuntimeException.class)

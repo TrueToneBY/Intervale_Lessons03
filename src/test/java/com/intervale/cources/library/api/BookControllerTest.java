@@ -7,9 +7,10 @@ import static org.junit.Assert.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import com.intervale.cources.library.model.Books;
-import com.intervale.cources.library.model.BooksDto;
-import com.intervale.cources.library.repository.BooksDAO;
+
+//import com.intervale.cources.library.model.Books;
+//import com.intervale.cources.library.model.BooksDto;
+//import com.intervale.cources.library.repository.BooksDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,23 +22,23 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application.yml")
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//@AutoConfigureMockMvc
+//@TestPropertySource(
+//        locations = "classpath:application.yml")
 public class BookControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
-    @Mock
-    private BooksDAO bookDao;
-    @Mock
-    private Books book;
-    @Mock
-    private BooksDto booksDto;
+//    @Autowired
+//    private MockMvc mockMvc;
+//    @Mock
+//    private BooksDAO bookDao;
+//    @Mock
+//    private Books book;
+//    @Mock
+//    private BooksDto booksDto;
 
-    @InjectMocks
-    private BookController bookController;
+//    @InjectMocks
+//    private BookController bookController;
 
     @Test
     public void getAllBooks() {

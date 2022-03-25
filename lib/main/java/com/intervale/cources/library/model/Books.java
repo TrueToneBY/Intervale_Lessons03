@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Validated
+
 public class Books  {
 
     private Integer id;
@@ -28,9 +28,5 @@ public class Books  {
     private double weight;
 
     private int price;
-
-    private double usd;
-
-    private double rub;
 
 }

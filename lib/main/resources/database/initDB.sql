@@ -13,5 +13,5 @@
 --    DROP TABLE IF EXISTS "Books".public.books;
 --    DROP SEQUENCE IF EXISTS public._id_seq
 -- SELECT name FROM books group by name = ?;
-select *  from books where "author" = ?
+-- select *  from books where "author" = ?
 
