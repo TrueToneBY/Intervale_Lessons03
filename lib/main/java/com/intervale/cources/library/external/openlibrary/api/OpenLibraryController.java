@@ -4,6 +4,8 @@ import com.intervale.cources.library.external.openlibrary.OpenLibraryDocs;
 import com.intervale.cources.library.external.openlibrary.service.OpenService;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/app")
 public class OpenLibraryController {
+    private Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     OpenService openService;
 
     @GetMapping
     public List<OpenLibraryDocs> getAllBooks(){
-        log.info("Сработал GET запрос getAllBooks");
+        log.info("Сработал GET запрос getAllBooksOpenLibrary");
         return openService.getOpen();
     }
     @GetMapping(value = "/author/{authorName}")
@@ -33,7 +36,7 @@ public class OpenLibraryController {
         if (books.toArray().length == 0){
             return new ResponseEntity<String>("Нет такой книги author " + authorName, HttpStatus.NOT_FOUND);
         }
-        log.info("Сработал GET запрос /author/{authorName}");
+        log.info("Сработал GET запрос OpenLibrary /author/{authorName}");
         return new ResponseEntity<List>(books,HttpStatus.OK);
     }
 
@@ -42,6 +45,7 @@ public class OpenLibraryController {
         ResponseEntity<Object> response;
         List<OpenLibraryDocs> works = openService.getOpenAuthor(author);
         if (works.size() != 0) {
+            log.info("Сработал GET запрос OpenLibrary /author/{authorName}");
             response = new ResponseEntity<>(works, HttpStatus.OK);
         }
         else {

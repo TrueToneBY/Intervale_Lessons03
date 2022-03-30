@@ -1,69 +1,43 @@
 databaseChangeLog:
+
   - changeSet:
-      id: 1
-      author: your_liquibase_username
+      id: DEV-1
+      author: pavel
       changes:
         - createTable:
-            tableName: users
+            tableName: LiqubaseBooks
+            remarks: Статьи
             columns:
               - column:
                   name: id
-                  type: BIGINT
-                  autoIncrement: true
+                  type: integer
+#                  autoIncrement: true
                   constraints:
                     primaryKey: true
+                    primaryKeyName: article_pk
                     nullable: false
               - column:
-                  name: username
+                  name: url
                   type: varchar(50)
+                  remarks: Постоянная ссылка на статью
                   constraints:
                     unique: true
+                    uniqueConstraintName: article_url_uq
                     nullable: false
               - column:
-                  name: password
-                  type: varchar(512)
+                  name: title
+                  type: varchar(50)
                   constraints:
                     nullable: false
               - column:
-                  name: first_name
-                  type: varchar(50)
+                  name: is_visible
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
               - column:
-                  name: last_name
-                  type: varchar(50)
-              - column:
-                  name: email
-                  type: varchar(50)
-
-              - changeSet:
-                  id: 2
-                  author: your_liquibase_username
-                  comment: Create admin user
-                  changes:
-                    - insert:
-                        tableName: users
-                        columns:
-                          - column:
-                              name: username
-                              value: admin
-                          - column:
-                              name: password
-                              value: admin
-                          - column:
-                              name: email
-                              value: admin@server.com
-                    - insert:
-                        tableName: users
-                        columns:
-                          - column:
-                              name: username
-                              value: guest
-                          - column:
-                              name: password
-                              value: guest
-                          - column:
-                              name: email
-                              value: guest@server.com
-                  rollback:
-                    - delete:
-                        tableName: users
-                        where: username in ('admin', 'guest')
+                  name: created
+                  type: timestamp without time zone
+                  defaultValue: now()
+                  constraints:
+                    nullable: false

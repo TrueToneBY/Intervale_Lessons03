@@ -4,11 +4,11 @@ import com.intervale.cources.library.business.BooksRepository;
 import com.intervale.cources.library.exception.BookNotFoundException;
 import com.intervale.cources.library.model.Books;
 import com.intervale.cources.library.model.BooksDto;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -22,8 +22,8 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/books",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/books")
+//        produces = MediaType.APPLICATION_JSON_VALUE)
 public class  BookController  {
 
     @Autowired
@@ -94,14 +94,7 @@ public class  BookController  {
 
     //для swagger
     @Operation(summary = "Get a book by its id")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Found the book",
-//                    content = { @Content(mediaType = "application/json",
-//                            schema = @Schema(implementation = Book.class)) }),
-//            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
-//                    content = @Content),
-//            @ApiResponse(responseCode = "404", description = "Book not found",
-//                    content = @Content) })
+
     @GetMapping(value = "/get/id/{id}")
     public ResponseEntity<?> getBooksId(@PathVariable("id")Integer id){
         BooksDto books = booksRepository.findBooksById(id);

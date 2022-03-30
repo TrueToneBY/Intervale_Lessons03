@@ -31,7 +31,7 @@ public class Rate {
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date = null;
 
-    public Rate sellRate(BigDecimal sellRate) {
+    public Rate sellRate() {
         this.sellRate = sellRate;
         return this;
     }

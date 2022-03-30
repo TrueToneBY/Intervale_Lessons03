@@ -37,4 +37,11 @@ public class AlfaControllers {
         return alfaBankService.getOpenAlfaBank();
     }
 
+    @GetMapping("/euro")
+    public List<Rate> getISO_EURO(){
+
+        log.info("euro GET запрос getISO_EURO");
+        return  alfaBankService.getISO_EURO();
+    }
+
 }

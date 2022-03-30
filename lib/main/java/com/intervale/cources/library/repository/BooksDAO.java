@@ -6,7 +6,8 @@ import com.intervale.cources.library.external.alfabank.model.BookWithCurrencyRan
 import com.intervale.cources.library.external.alfabank.model.Rate;
 import com.intervale.cources.library.external.alfabank.model.RateListResponse;
 //import com.intervale.cources.library.external.alfabank.service.impl.AlfaBankServiceImpl;
-import com.intervale.cources.library.external.alfabank.service.impl.AlfaBankServiceImpl;
+//import com.intervale.cources.library.external.alfabank.service.impl.AlfaBankServiceImpl;
+import com.intervale.cources.library.external.alfabank.service.impl.AlfaBankService;
 import com.intervale.cources.library.model.Books;
 import com.intervale.cources.library.model.BooksDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ public class BooksDAO extends BookRowMapper implements BooksRepository<BooksDto>
 
     final String GET_QUERY = "select id,isbn,name,author,pages,weight,price from books";
     final String GET_BY_ID_QUERY = "SELECT * FROM books WHERE ID = ?";
-    final String GET_BY_AUTHOR_QUERY = "SELECT * FROM Books where author = ?";
-    final String GET_BY_NAME_QUERY = "SELECT * FROM Books where name = ?";
-    final String GET_BY_ISBN_QUERY = "SELECT * FROM Books where isbn = ?";
-    final String GET_BY_PRICE = "select * from Books where price = ?";
+    final String GET_BY_AUTHOR_QUERY = "SELECT * FROM books where author = ?";
+    final String GET_BY_NAME_QUERY = "SELECT * FROM books where name = ?";
+    final String GET_BY_ISBN_QUERY = "SELECT * FROM books where isbn = ?";
+    final String GET_BY_PRICE = "select * from books where price = ?";
     final String INSERT_QUERY = "insert into books values(?,?,?,?,?,?,?)";
     final String UPDATE_QUERY = "update books set isbn=?, name=?, author=?, pages=?, weight=?, price=? WHERE id=?";
     final String DELETE_QUERY = "delete from books where id = ?";
@@ -43,10 +44,6 @@ public class BooksDAO extends BookRowMapper implements BooksRepository<BooksDto>
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-//    @Autowired
-//    AlfaBankServiceImpl alfaBankService;
-//    @Autowired
-//    BooksDAO booksDAO;
 
 
     public List<BooksDto> getBooksByAuthor(String author) {
