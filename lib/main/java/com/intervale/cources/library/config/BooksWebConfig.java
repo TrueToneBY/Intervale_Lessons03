@@ -1,0 +1,15 @@
+//package com.intervale.cources.library.config;
+//
+//import lombok.extern.log4j.Log4j2;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+//
+//@Configuration
+//public class BooksWebConfig implements WebMvcConfigurer {
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//
+//        registry.addViewController("/login").setViewName("login");
+//    }
+//}
